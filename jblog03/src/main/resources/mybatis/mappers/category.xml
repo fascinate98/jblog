@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 쿼리랑 매핑  넴스페이스는 쿼리 구분 -->
+<mapper namespace="category">
+
+
+	<insert id="insert" parameterType = "categoryvo">
+	<choose>
+			<when test = "name == null || '' == name">
+				<![CDATA[
+					insert into category values(null , '기본게시판', '기본게시판 입니다.', #{blog_id})
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					insert into category values(null, #{name}, #{description}, #{blog_id})
+				]]>
+			</otherwise>
+		</choose>
+	</insert>
+	
+
+	<select id="findByNo" parameterType = "long" resultType="uservo">
+	<![CDATA[
+		select name, email, gender from user where no = #{no}
+	]]>
+	</select>
+
+	
+	
+	<select id="findByEmailAndPassword" parameterType = "map" resultType="uservo">
+	<![CDATA[
+		select no, name, role from user where email= #{e} and password = #{p}
+	]]>
+	</select>
+
+
+
+	
+	
+	<update id="update" parameterType = "uservo">
+		<choose>
+			<when test = "password == null || '' == password">
+				<![CDATA[
+					update user set name = #{name} , gender = #{gender} where no= #{no}
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					update user set name = #{name} , password = #{password}, gender = #{gender} where no= #{no}
+				]]>
+			</otherwise>
+		</choose>
+	</update>	
+	
+	
+</mapper>
