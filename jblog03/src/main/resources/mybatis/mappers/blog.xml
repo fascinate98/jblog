@@ -6,39 +6,31 @@
 
 
 	<insert id="insert" parameterType = "blogvo">
-		insert into blog values(#{title}, #{logo}, #{user_id} , '${name}입니다')
+		insert into blog values(#{title}, #{logo}, #{user_id} )
 	</insert>
 	
 
-	<select id="findByNo" parameterType = "long" resultType="uservo">
-	<![CDATA[
-		select name, email, gender from user where no = #{no}
-	]]>
+	<select id="select" parameterType="String" resultType="blogvo">
+		<![CDATA[
+			select * from blog where user_id = #{user_id}
+		]]>
 	</select>
-
 	
-	
-	<select id="findByEmailAndPassword" parameterType = "map" resultType="uservo">
-	<![CDATA[
-		select no, name, role from user where email= #{e} and password = #{p}
-	]]>
-	</select>
-
-
-	<update id="update" parameterType = "uservo">
-		<choose>
-			<when test = "password == null || '' == password">
+	<update id="update"  parameterType="blogvo" >
+	<choose>
+			<when test = "logo == null || '' == logo">
 				<![CDATA[
-					update user set name = #{name} , gender = #{gender} where no= #{no}
+					update blog set title = #{title} where user_id = #{user_id} 
 				]]>
 			</when>
 			<otherwise>
 				<![CDATA[
-					update user set name = #{name} , password = #{password}, gender = #{gender} where no= #{no}
+					update blog set title = #{title} ,logo = #{logo} where user_id = #{user_id} 
 				]]>
 			</otherwise>
 		</choose>
-	</update>	
+	</update>
+
 	
 	
 </mapper>

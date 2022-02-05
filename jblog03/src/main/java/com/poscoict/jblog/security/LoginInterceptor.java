@@ -7,7 +7,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.poscoict.jblog.service.BlogService;
 import com.poscoict.jblog.service.UserService;
+import com.poscoict.jblog.vo.BlogVo;
 import com.poscoict.jblog.vo.UserVo;
 
 
@@ -15,16 +17,24 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private BlogService blogService;
+	
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-
+		
+		
+		
 		UserVo authUser = userService.getUser(id, password);
+		
 		if(authUser == null) {
 			request.setAttribute("result", "fail");
 			request.setAttribute("id", id);
+			request.setAttribute("password", password);
 			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
 			return false;
 		}

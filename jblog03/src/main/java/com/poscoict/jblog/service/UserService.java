@@ -24,14 +24,14 @@ public class UserService {
 	   public boolean join(UserVo vo) {
 		   //유저생성
 		   Boolean result = userRepository.insert(vo);
+		   System.out.println("ddd" + vo);
 		   
 		   //블로그생성
 		   BlogVo blogVo = new BlogVo(vo.getName() + "님의 블로그입니다.", "/images/20210275419754.png", vo.getId());
-
 		   blogRepository.insert(blogVo);
 		   
 		   //카테고리생성
-		   CategoryVo categoryVo = new CategoryVo(Long.valueOf(0) , "", "", vo.getId());
+		   CategoryVo categoryVo = new CategoryVo(Long.valueOf(0) , "", "", vo.getId(), 0);
 		   categoryRepository.insert(categoryVo);
 		   
 		   return result;
@@ -41,10 +41,10 @@ public class UserService {
 			   return userRepository.findByIdAndPassword(id, password);
 		}
 
-//		public UserVo getUser(Long userNo) {
-//			
-//			//return userRepository.findByNo(userNo);
-//		}
+		public UserVo getUser(String id) {
+			
+			return userRepository.findById(id);
+		}
 
 		public void updateUser(UserVo userVo) {
 			

@@ -18,5 +18,17 @@ public class BlogRepository {
 		int count = sqlSession.insert("blog.insert", vo);
 		return count == 1;
 	}
+	
+	public BlogVo select(String user_id) {
+		
+		return sqlSession.selectOne("blog.select", user_id);
+	}
+
+	public boolean update(BlogVo vo) {
+		
+		int count = sqlSession.update("blog.update",vo);
+		return count == 1;
+	}
+
 
 }

@@ -38,9 +38,9 @@ public class UserRepository {
 		return count == 1;
 	}
 
-//
-//
-//	public UserVo findByNo(Long no) {
-//	    return sqlSession.selectOne("user.findByNo", no);
-//	}	
+
+
+	public UserVo findById(String id) {
+	    return sqlSession.selectOne("user.findById", id);
+	}	
 }

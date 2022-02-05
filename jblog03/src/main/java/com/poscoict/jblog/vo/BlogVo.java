@@ -11,6 +11,8 @@ public class BlogVo {
 		this.user_id = user_id;
 	}
 	
+	public BlogVo() {}
+	
 	public String getTitle() {
 		return title;
 	}

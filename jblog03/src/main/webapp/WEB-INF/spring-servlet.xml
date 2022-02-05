@@ -21,7 +21,24 @@
 	<!-- mvc url-resource mapping -->
 	
 	<!-- Interceptors -->
-	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth" />
+			<bean class="com.poscoict.jblog.security.LoginInterceptor"/>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout" />
+			<bean class="com.poscoict.jblog.security.LogoutInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/jblog/**" />
+			<bean class="com.poscoict.jblog.security.BlogInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>	
+
+
 	<!-- ViewResolver -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -32,6 +49,10 @@
 	
 	 <!-- MessageSource -->
 
+
+	<!-- mvc url-resource mapping-->
+	<mvc:resources mapping="/images/**"  location="file:/upload-images/"/>
+	
 	<!-- 멀티파트 리졸버 -->
 	<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 최대업로드 가능한 바이트크기 -->
