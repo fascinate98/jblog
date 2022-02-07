@@ -28,7 +28,7 @@ import com.poscoict.jblog.vo.PostVo;
 import com.poscoict.jblog.vo.UserVo;
 
 @Controller
-@RequestMapping("/{id:(?!assets).*}")
+@RequestMapping("/jblog/{id:(?!assets).*}")
 public class BlogController {
 
 	
@@ -46,6 +46,7 @@ public class BlogController {
 	
 	@Autowired
 	private ServletContext context;
+	
 	
 	
 //	//블로그 메인화면
@@ -75,7 +76,7 @@ public class BlogController {
 //		return "blog/blog-main";
 //	}
 	
-	@RequestMapping({"", "/{category}", "/{id}/{category}/{post}"})
+	@RequestMapping({"", "/{category}", "/{category}/{post}"})
 	public String main(@PathVariable(value = "id") String id, 
 			@PathVariable(value = "category")  Optional<Long>  category,  
 			@PathVariable(value = "post")  Optional<Long>  post, Model model) {
@@ -108,15 +109,11 @@ public class BlogController {
 	
 	
 	
-	
 	//기본설정
 	@Auth
 	@RequestMapping(value="/admin/basic", method=RequestMethod.GET)
 	public String basic(@AuthUser UserVo uservo, @PathVariable(value = "id") String id) {
-		if(uservo.getId().equals(id)) {
-			return "blog/blog-admin-basic";
-		}
-		return "main/index";
+		return "blog/blog-admin-basic";
 	}
 	//기본설정-타이틀,로고 수정
 	@Auth
@@ -139,7 +136,7 @@ public class BlogController {
 	
 	//카테고리
 	@Auth
-	@RequestMapping(value="/{id}/admin/category",method=RequestMethod.GET)
+	@RequestMapping(value="/admin/category",method=RequestMethod.GET)
 	public String category(@AuthUser UserVo uservo, Model model) {
 		List<CategoryVo> clist =  categoryService.getCategoryList(uservo.getId());
 		model.addAttribute("clist", clist);
@@ -147,7 +144,7 @@ public class BlogController {
 	}
 	
 	@Auth
-	@RequestMapping(value="/{id}/admin/category",method=RequestMethod.POST)
+	@RequestMapping(value="/admin/category",method=RequestMethod.POST)
 	public String category(@AuthUser UserVo uservo, CategoryVo categoryvo) {
 		categoryvo.setBlog_id(uservo.getId());
 		categoryService.insert(categoryvo);
@@ -155,7 +152,7 @@ public class BlogController {
 	}
 	//카테고리-삭제
 	@Auth
-	@RequestMapping(value="/{id}/admin/category/delete/{categoryno}",method=RequestMethod.GET)
+	@RequestMapping(value="/admin/category/delete/{categoryno}",method=RequestMethod.GET)
 	public String category(@PathVariable(value = "categoryno") Long categoryno, @AuthUser UserVo uservo) {
 		categoryService.delete(categoryno);
 		return "redirect:/jblog/"+ uservo.getId() + "/admin/category";
@@ -168,7 +165,7 @@ public class BlogController {
 	
 	//글작성
 	@Auth
-	@RequestMapping(value="/{id}/admin/write",method=RequestMethod.GET)
+	@RequestMapping(value="/admin/write",method=RequestMethod.GET)
 	public String write(@AuthUser UserVo uservo, CategoryVo categoryvo, Model model) {
 		List<CategoryVo> clist =  categoryService.getCategoryList(uservo.getId());
 		model.addAttribute("clist", clist);
@@ -176,7 +173,7 @@ public class BlogController {
 	}
 	
 	@Auth
-	@RequestMapping(value="/{id}/admin/write",method=RequestMethod.POST)
+	@RequestMapping(value="/admin/write",method=RequestMethod.POST)
 	public String write(@AuthUser UserVo uservo, PostVo postvo, CategoryVo categoryvo) {
 		postService.insert(postvo);
 		return "redirect:/jblog/"+ uservo.getId();

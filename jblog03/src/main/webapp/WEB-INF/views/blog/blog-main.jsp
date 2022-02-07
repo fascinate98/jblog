@@ -23,7 +23,7 @@
 				</div>
 				<ul class="blog-list">
 					<c:forEach items="${blog.plist}" var="vo" varStatus="status">
-						<li><a href="${pageContext.request.contextPath}/${authUser.id}/${blog.cno}/${vo.no}">${vo.title}</a> <span>${vo.reg_date}</span></li>
+						<li><a href="${pageContext.request.contextPath}/jblog/${authUser.id}/${blog.cno}/${vo.no}">${vo.title}</a> <span>${vo.reg_date}</span></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -39,7 +39,7 @@
 			<h2>카테고리</h2>
 			<ul>
 			<c:forEach items="${blog.clist}" var="vo"  varStatus="status" >
-				<li><a href="${pageContext.request.contextPath}/${authUser.id}/${vo.no}">${vo.name}</a></li>
+				<li><a href="${pageContext.request.contextPath}/jblog/${authUser.id}/${vo.no}">${vo.name}</a></li>
 			</c:forEach>
 			</ul>
 		</div>
