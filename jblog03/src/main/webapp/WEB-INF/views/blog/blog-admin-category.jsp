@@ -18,9 +18,9 @@
 		<div id="wrapper">
 			<div id="content" class="full-screen">
 				<ul class="admin-menu">
-					<li><a href="${pageContext.request.contextPath}/jblog/${authUser.id}/admin/basic">기본설정</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/basic">기본설정</a></li>
 					<li class="selected">카테고리</li>
-					<li><a href="${pageContext.request.contextPath}/jblog/${authUser.id}/admin/write">글작성</a></li>
+					<li><a href="${pageContext.request.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 		      	<table class="admin-cat">
 		      		<tr>
@@ -38,7 +38,7 @@
 								<td>${vo.description}</td>
 								<td>
 								<c:if test='${vo.postcount == 0}'>
-									<a href="${pageContext.request.contextPath}/jblog/${authUser.id}/admin/category/delete/${vo.no}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a>
+									<a href="${pageContext.request.contextPath}/${authUser.id}/admin/category/delete/${vo.no}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a>
 								</c:if>
 								</td>
 							</tr>  
@@ -46,7 +46,7 @@
 				</table>
       	
       			<h4 class="n-c">새로운 카테고리 추가</h4>
-      			<form method="POST" action="${pageContext.request.contextPath}/jblog/${authUser.id}/admin/category">
+      			<form method="POST" action="${pageContext.request.contextPath}/${authUser.id}/admin/category">
 			      	<table id="admin-cat-add">
 			      		<tr>
 			      			<td class="t">카테고리명</td>

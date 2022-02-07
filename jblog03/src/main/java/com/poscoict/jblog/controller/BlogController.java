@@ -3,6 +3,7 @@ package com.poscoict.jblog.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.ServletContext;
 
@@ -27,7 +28,7 @@ import com.poscoict.jblog.vo.PostVo;
 import com.poscoict.jblog.vo.UserVo;
 
 @Controller
-@RequestMapping("/jblog")
+@RequestMapping("/{id:(?!assets).*}")
 public class BlogController {
 
 	
@@ -47,39 +48,57 @@ public class BlogController {
 	private ServletContext context;
 	
 	
-	//블로그 메인화면
-	@RequestMapping("/{id}")
-	public String main(@PathVariable(value = "id") String id, Model model) {
-
-		Map<String, Object> map = new HashMap<>();
-		
-		Long cno = categoryService.getMinCategoryNo(id);
-		Long pno = postService.getMaxPostNo(cno);
-
-		map = blogService.getBlogInfo(id, cno, pno); 
-		model.addAttribute("blog", map);
-		
-		return "blog/blog-main";
-	}
+//	//블로그 메인화면
+//	@RequestMapping("/{id}")
+//	public String main(@PathVariable(value = "id") String id, Model model) {
+//
+//		Map<String, Object> map = new HashMap<>();
+//		
+//		Long cno = categoryService.getMinCategoryNo(id);
+//		Long pno = postService.getMaxPostNo(cno);
+//
+//		map = blogService.getBlogInfo(id, cno, pno); 
+//		model.addAttribute("blog", map);
+//		
+//		return "blog/blog-main";
+//	}
+//	
+//	@RequestMapping("/{id}/{category}")
+//	public String main(@PathVariable(value = "id") String id, @PathVariable(value = "category") Optional<Long> category, Model model) {
+//
+//		Map<String, Object> map = new HashMap<>();
+//		Long pno = postService.getMaxPostNo(category);
+//		
+//		map = blogService.getBlogInfo(id, category, pno);
+//		model.addAttribute("blog", map);
+//		
+//		return "blog/blog-main";
+//	}
 	
-	@RequestMapping("/{id}/{category}")
-	public String main(@PathVariable(value = "id") String id, @PathVariable(value = "category") Long category, Model model) {
-
+	@RequestMapping({"", "/{category}", "/{id}/{category}/{post}"})
+	public String main(@PathVariable(value = "id") String id, 
+			@PathVariable(value = "category")  Optional<Long>  category,  
+			@PathVariable(value = "post")  Optional<Long>  post, Model model) {
+		
+		Long category_no = 0L;
+		Long post_no = 0L;
+		
+		if(category.isPresent()) {
+			category_no = category.get();
+		} else {
+			category_no = categoryService.getMinCategoryNo(id);
+		}
+		
+		if(post.isPresent()) {
+			post_no = post.get();
+		} else {
+			post_no = postService.getMaxPostNo(category_no);
+		}
+		
+		
 		Map<String, Object> map = new HashMap<>();
-		Long pno = postService.getMaxPostNo(category);
 		
-		map = blogService.getBlogInfo(id, category, pno);
-		model.addAttribute("blog", map);
-		
-		return "blog/blog-main";
-	}
-	
-	@RequestMapping("/{id}/{category}/{post}")
-	public String main(@PathVariable(value = "id") String id, @PathVariable(value = "category") Long category,  @PathVariable(value = "post") Long post, Model model) {
-
-		Map<String, Object> map = new HashMap<>();
-		
-		map = blogService.getBlogInfo(id, category, post); 
+		map = blogService.getBlogInfo(id, category_no, post_no); 
 		model.addAttribute("blog", map);
 		
 		return "blog/blog-main";
@@ -92,13 +111,16 @@ public class BlogController {
 	
 	//기본설정
 	@Auth
-	@RequestMapping(value="/{id}/admin/basic", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/basic", method=RequestMethod.GET)
 	public String basic(@AuthUser UserVo uservo, @PathVariable(value = "id") String id) {
-		return "blog/blog-admin-basic";
+		if(uservo.getId().equals(id)) {
+			return "blog/blog-admin-basic";
+		}
+		return "main/index";
 	}
 	//기본설정-타이틀,로고 수정
 	@Auth
-	@RequestMapping(value="/{id}/admin/basic",method=RequestMethod.POST)
+	@RequestMapping(value="/admin/basic",method=RequestMethod.POST)
 	public String basic(@AuthUser UserVo uservo, BlogVo blogvo, @RequestParam(value = "logo-file") MultipartFile multipartFile) {
 		
 		blogvo.setLogo(fileUploadService.restore(multipartFile));
