@@ -2,6 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<%
+ pageContext.setAttribute("newline", "\n");
+%>
+
+
 <!doctype html>
 <html>
 <head>
@@ -11,15 +17,12 @@
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-			<h1>${blogvo.title}</h1>
-			<c:import url="/WEB-INF/views/include/blogmenu.jsp"/>
-		</div>
+		<c:import url="/WEB-INF/views/include/blogmenu.jsp"/>
 		<div id="wrapper">
 			<div id="content">
 				<div class="blog-content">
 					<h4>${blog.postvo.title}</h4>
-					<p>${blog.postvo.contents}<p>
+					<p>${fn:replace(blog.postvo.contents, newline , "<br/>") }<p>
 				</div>
 				<ul class="blog-list">
 					<c:forEach items="${blog.plist}" var="vo" varStatus="status">
@@ -42,11 +45,7 @@
 			</c:forEach>
 			</ul>
 		</div>
-		<div id="footer">
-			<p>
-				<strong>Spring 이야기</strong> is powered by JBlog (c)2016
-			</p>
-		</div>
+		<c:import url="/WEB-INF/views/include/footer.jsp"/>
 	</div>
 </body>
 </html>
