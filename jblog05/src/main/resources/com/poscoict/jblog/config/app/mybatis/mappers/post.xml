@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 쿼리랑 매핑  넴스페이스는 쿼리 구분 -->
+<mapper namespace="post">
+
+	<select id="getpostlist" parameterType="long" resultType="postvo">
+			select * from post where category_no = #{category_no} order by reg_date desc;
+	</select>
+	
+	
+	<select id="getmaxno" parameterType="long" resultType="long">
+			select max(no) from post where category_no = #{category_no}; 
+	</select>
+	
+	<insert id="insert" parameterType="postvo">
+		<![CDATA[
+			insert into post values (null, #{title}, #{contents}, now(), #{category_no});
+		]]>
+	</insert>
+</mapper>
