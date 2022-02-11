@@ -1,4 +1,4 @@
-package com.poscoict.mysite.exception;
+package com.poscoict.jblog.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
