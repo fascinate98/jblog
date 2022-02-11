@@ -23,9 +23,5 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
-	//Defalut - 서블릿 컨테이너(tomcat)의 DefaultServlet 위임(delegate) Handler
-	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
-	}
+
 }

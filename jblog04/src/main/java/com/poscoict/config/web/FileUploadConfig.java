@@ -29,9 +29,11 @@ public class FileUploadConfig extends WebMvcConfigurerAdapter {
 		return multipartResolver;
 	}
 
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler(env.getProperty("fileupload.resourceMapping")).addResourceLocations("file:" + env.getProperty("fileupload.uploadLocation"));
+		registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/com/poscoict/jblog/assets/");
 	}
 	
 	
